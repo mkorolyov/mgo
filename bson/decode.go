@@ -356,9 +356,8 @@ func (d *decoder) readArrayDocTo(out reflect.Value) {
 	if end <= d.i || end > len(d.in) || d.in[end-1] != '\x00' {
 		corrupted()
 	}
-	i := 0
-	array := out
 
+	array := out
 	if out.Kind() == reflect.Ptr {
 		p := reflect.New(out.Type())
 		tmp := reflect.New(p.Elem().Type().Elem())
@@ -366,6 +365,7 @@ func (d *decoder) readArrayDocTo(out reflect.Value) {
 		array = tmp.Elem()
 	}
 
+	i := 0
 	l := array.Len()
 	for d.in[d.i] != '\x00' {
 		if i >= l {
